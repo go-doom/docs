@@ -33,6 +33,14 @@ kernel. The fork adds:
   [go-virtio](https://github.com/go-virtio) sound/input sprints ship);
 - `internal/embedwad/` — an `io/fs.FS` shim serving a WAD blob.
 
+- `backend/wasmbox/` and `cmd/doom-wasmbox` — a `DoomFrontend` that runs DOOM as a
+  window of the [wasmbox](https://github.com/wasmdesk/wasmbox) web desktop. Effects
+  and OPL music are mixed at 44.1 kHz and relayed to the page through a lock-free
+  `SharedArrayBuffer` ring
+  ([`wasmbox/audioring`](https://pkg.go.dev/github.com/wasmdesk/wasmbox/audioring)),
+  because a browser worker has no `AudioContext`; the page plays the ring from an
+  AudioWorklet, resuming on the first click or key.
+
 ## Provable-test protocol {#provable-test-protocol}
 
 go-doom originated the project's **4-gate provable-test protocol** that
